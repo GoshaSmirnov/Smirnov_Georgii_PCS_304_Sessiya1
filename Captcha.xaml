@@ -1,0 +1,20 @@
+﻿<Page x:Class="Smirnov_Georgii_PCS_304_Sessiya1.Captcha"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Smirnov_Georgii_PCS_304_Sessiya1"
+      mc:Ignorable="d"
+      Title="Captcha" Height="450" Width="800">
+
+    <Grid>
+        <Grid.Background>
+            <!--<ImageBrush ImageSource = "C:\Users\Student\Desktop\Сессия 1\Pictures\fon.jpeg"></ImageBrush>-->
+            <ImageBrush ImageSource = "C:\Users\das44\Desktop\Сессия 1\Pictures\fon.jpeg"></ImageBrush>
+        </Grid.Background>
+        <TextBox Text="" IsHitTestVisible="False" Height="53" HorizontalAlignment="Left" FontSize="28" Foreground="Red" FontStyle="Italic" FontWeight="Heavy" Margin="71,50,0,0" Name="Text1" VerticalAlignment="Top" Width="202" Background="{x:Null}" FontStretch="UltraCondensed"></TextBox>
+        <Button Content="Сгенерировать" Height="31" HorizontalAlignment="Left" Margin="86,196,0,0" Name="button1" VerticalAlignment="Top" Width="161" Click="button1_Click" />
+        <TextBox Text="" Height="53" HorizontalAlignment="Left" FontSize="28" Foreground="Red" FontStyle="Italic" FontWeight="Heavy" Name="Text2" VerticalAlignment="Top" Width="202" FontStretch="UltraCondensed" Margin="71,138,0,0"></TextBox>
+        <Frame x:Name="CaptchaFrame"/>
+    </Grid>
+</Page>

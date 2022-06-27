@@ -1,0 +1,460 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище SmirnovGeorgyPKC_304Ses1Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="Employee_ID" />
+          </Key>
+          <Property Name="Surname" Type="nvarchar" MaxLength="255" />
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="Pastname" Type="nvarchar" MaxLength="255" />
+          <Property Name="Login" Type="nvarchar" MaxLength="255" />
+          <Property Name="Password" Type="nvarchar" MaxLength="255" />
+          <Property Name="Role" Type="nvarchar" MaxLength="255" />
+          <Property Name="Telephone" Type="nvarchar" MaxLength="255" />
+          <Property Name="Gender" Type="nvarchar" MaxLength="255" />
+          <Property Name="Employee_ID" Type="int" Nullable="false" />
+          <Property Name="Photo" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Pavilions">
+          <Key>
+            <PropertyRef Name="Pavilion_Number" />
+            <PropertyRef Name="SC_ID" />
+          </Key>
+          <Property Name="Pavilion_Number" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Floor" Type="int" />
+          <Property Name="Status" Type="nvarchar" MaxLength="255" />
+          <Property Name="Square" Type="float" />
+          <Property Name="Price_M2" Type="float" />
+          <Property Name="Value_Adder_Factor" Type="float" />
+          <Property Name="SC_ID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rental">
+          <Key>
+            <PropertyRef Name="Rental_ID" />
+          </Key>
+          <Property Name="Rental_ID" Type="int" Nullable="false" />
+          <Property Name="Tenant_ID" Type="int" />
+          <Property Name="Employee_ID" Type="int" />
+          <Property Name="Pavilion_Number" Type="nvarchar" MaxLength="255" />
+          <Property Name="Status" Type="nvarchar" MaxLength="255" />
+          <Property Name="Rental_Start" Type="datetime" />
+          <Property Name="Rental_End" Type="datetime" />
+          <Property Name="SC_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="Shop_Centers">
+          <Key>
+            <PropertyRef Name="SC_ID" />
+          </Key>
+          <Property Name="Name" Type="nvarchar" MaxLength="255" />
+          <Property Name="Status" Type="nvarchar" MaxLength="255" />
+          <Property Name="Number_Of_Pawilion" Type="int" />
+          <Property Name="Sity" Type="nvarchar" MaxLength="255" />
+          <Property Name="Price" Type="money" />
+          <Property Name="Value_Adder_Factor" Type="float" />
+          <Property Name="Floor" Type="int" />
+          <Property Name="SC_ID" Type="int" Nullable="false" />
+          <Property Name="Photo" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Tenant">
+          <Key>
+            <PropertyRef Name="Код_Арендатора" />
+          </Key>
+          <Property Name="Код_Арендатора" Type="int" Nullable="false" />
+          <Property Name="Код_Аренды" Type="int" />
+          <Property Name="Название" Type="nvarchar" MaxLength="255" />
+          <Property Name="номер" Type="nvarchar" MaxLength="255" />
+          <Property Name="Адрес" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <Association Name="FK_Arend_Арендаторы">
+          <End Role="Tenant" Type="Self.Tenant" Multiplicity="0..1" />
+          <End Role="Rental" Type="Self.Rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tenant">
+              <PropertyRef Name="Код_Арендатора" />
+            </Principal>
+            <Dependent Role="Rental">
+              <PropertyRef Name="Tenant_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Arend_Повильоны">
+          <End Role="Pavilions" Type="Self.Pavilions" Multiplicity="0..1" />
+          <End Role="Rental" Type="Self.Rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pavilions">
+              <PropertyRef Name="Pavilion_Number" />
+              <PropertyRef Name="SC_ID" />
+            </Principal>
+            <Dependent Role="Rental">
+              <PropertyRef Name="Pavilion_Number" />
+              <PropertyRef Name="SC_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Arend_Сотрудники">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="Rental" Type="Self.Rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Employee_ID" />
+            </Principal>
+            <Dependent Role="Rental">
+              <PropertyRef Name="Employee_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Повильоны_Торговые центры">
+          <End Role="Shop_Centers" Type="Self.Shop_Centers" Multiplicity="1" />
+          <End Role="Pavilions" Type="Self.Pavilions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shop_Centers">
+              <PropertyRef Name="SC_ID" />
+            </Principal>
+            <Dependent Role="Pavilions">
+              <PropertyRef Name="SC_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="Number1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Rent2" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="rentPavilion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="idTanant" Type="int" Mode="In" />
+          <Parameter Name="idEmployee" Type="int" Mode="In" />
+          <Parameter Name="Pavilion_Number" Type="nvarchar" Mode="In" />
+          <Parameter Name="statusPavilion" Type="nvarchar" Mode="In" />
+          <Parameter Name="start_rent" Type="date" Mode="In" />
+          <Parameter Name="end_rent" Type="date" Mode="In" />
+          <Parameter Name="SC_ID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="RentPr" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Tent_ID" Type="int" Mode="In" />
+          <Parameter Name="Empl_ID" Type="int" Mode="In" />
+          <Parameter Name="SC_ID" Type="int" Mode="In" />
+          <Parameter Name="PV_ID" Type="varchar" Mode="In" />
+          <Parameter Name="Rental_Start" Type="date" Mode="In" />
+          <Parameter Name="Rental_End" Type="date" Mode="In" />
+        </Function>
+        <EntityContainer Name="Хранилище SmirnovGeorgyPKC_304Ses1ModelContainer">
+          <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pavilions" EntityType="Self.Pavilions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rental" EntityType="Self.Rental" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Shop_Centers" EntityType="Self.Shop_Centers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tenant" EntityType="Self.Tenant" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Arend_Арендаторы" Association="Self.FK_Arend_Арендаторы">
+            <End Role="Tenant" EntitySet="Tenant" />
+            <End Role="Rental" EntitySet="Rental" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Arend_Повильоны" Association="Self.FK_Arend_Повильоны">
+            <End Role="Pavilions" EntitySet="Pavilions" />
+            <End Role="Rental" EntitySet="Rental" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Arend_Сотрудники" Association="Self.FK_Arend_Сотрудники">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Rental" EntitySet="Rental" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Повильоны_Торговые центры" Association="Self.FK_Повильоны_Торговые центры">
+            <End Role="Shop_Centers" EntitySet="Shop_Centers" />
+            <End Role="Pavilions" EntitySet="Pavilions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SmirnovGeorgyPKC_304Ses1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Employees">
+          <Key>
+            <PropertyRef Name="Employee_ID" />
+          </Key>
+          <Property Name="Surname" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Pastname" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Login" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Role" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Gender" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Employee_ID" Type="Int32" Nullable="false" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Rental" Relationship="Self.FK_Arend_Сотрудники" FromRole="Employees" ToRole="Rental" />
+        </EntityType>
+        <EntityType Name="Pavilions">
+          <Key>
+            <PropertyRef Name="Pavilion_Number" />
+            <PropertyRef Name="SC_ID" />
+          </Key>
+          <Property Name="Pavilion_Number" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Floor" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Square" Type="Double" />
+          <Property Name="Price_M2" Type="Double" />
+          <Property Name="Value_Adder_Factor" Type="Double" />
+          <Property Name="SC_ID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Rental" Relationship="Self.FK_Arend_Повильоны" FromRole="Pavilions" ToRole="Rental" />
+          <NavigationProperty Name="Shop_Centers" Relationship="Self.FK_Повильоны_Торговые_центры" FromRole="Pavilions" ToRole="Shop_Centers" />
+        </EntityType>
+        <EntityType Name="Rental">
+          <Key>
+            <PropertyRef Name="Rental_ID" />
+          </Key>
+          <Property Name="Rental_ID" Type="Int32" Nullable="false" />
+          <Property Name="Tenant_ID" Type="Int32" />
+          <Property Name="Employee_ID" Type="Int32" />
+          <Property Name="Pavilion_Number" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Rental_Start" Type="DateTime" Precision="3" />
+          <Property Name="Rental_End" Type="DateTime" Precision="3" />
+          <Property Name="SC_ID" Type="Int32" />
+          <NavigationProperty Name="Employees" Relationship="Self.FK_Arend_Сотрудники" FromRole="Rental" ToRole="Employees" />
+          <NavigationProperty Name="Pavilions" Relationship="Self.FK_Arend_Повильоны" FromRole="Rental" ToRole="Pavilions" />
+          <NavigationProperty Name="Tenant" Relationship="Self.FK_Arend_Арендаторы" FromRole="Rental" ToRole="Tenant" />
+        </EntityType>
+        <EntityType Name="Shop_Centers">
+          <Key>
+            <PropertyRef Name="SC_ID" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Number_Of_Pawilion" Type="Int32" />
+          <Property Name="Sity" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Value_Adder_Factor" Type="Double" />
+          <Property Name="Floor" Type="Int32" />
+          <Property Name="SC_ID" Type="Int32" Nullable="false" />
+          <Property Name="Photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Pavilions" Relationship="Self.FK_Повильоны_Торговые_центры" FromRole="Shop_Centers" ToRole="Pavilions" />
+        </EntityType>
+        <EntityType Name="Tenant">
+          <Key>
+            <PropertyRef Name="Код_Арендатора" />
+          </Key>
+          <Property Name="Код_Арендатора" Type="Int32" Nullable="false" />
+          <Property Name="Код_Аренды" Type="Int32" />
+          <Property Name="Название" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="номер" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Адрес" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Rental" Relationship="Self.FK_Arend_Арендаторы" FromRole="Tenant" ToRole="Rental" />
+        </EntityType>
+        <Association Name="FK_Arend_Сотрудники">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="Rental" Type="Self.Rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Employee_ID" />
+            </Principal>
+            <Dependent Role="Rental">
+              <PropertyRef Name="Employee_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Arend_Повильоны">
+          <End Role="Pavilions" Type="Self.Pavilions" Multiplicity="0..1" />
+          <End Role="Rental" Type="Self.Rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pavilions">
+              <PropertyRef Name="Pavilion_Number" />
+              <PropertyRef Name="SC_ID" />
+            </Principal>
+            <Dependent Role="Rental">
+              <PropertyRef Name="Pavilion_Number" />
+              <PropertyRef Name="SC_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Повильоны_Торговые_центры">
+          <End Role="Shop_Centers" Type="Self.Shop_Centers" Multiplicity="1" />
+          <End Role="Pavilions" Type="Self.Pavilions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Shop_Centers">
+              <PropertyRef Name="SC_ID" />
+            </Principal>
+            <Dependent Role="Pavilions">
+              <PropertyRef Name="SC_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Arend_Арендаторы">
+          <End Role="Tenant" Type="Self.Tenant" Multiplicity="0..1" />
+          <End Role="Rental" Type="Self.Rental" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tenant">
+              <PropertyRef Name="Код_Арендатора" />
+            </Principal>
+            <Dependent Role="Rental">
+              <PropertyRef Name="Tenant_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Ses1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Employees" EntityType="Self.Employees" />
+          <EntitySet Name="Pavilions" EntityType="Self.Pavilions" />
+          <EntitySet Name="Rental" EntityType="Self.Rental" />
+          <EntitySet Name="Shop_Centers" EntityType="Self.Shop_Centers" />
+          <EntitySet Name="Tenant" EntityType="Self.Tenant" />
+          <AssociationSet Name="FK_Arend_Сотрудники" Association="Self.FK_Arend_Сотрудники">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Rental" EntitySet="Rental" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Arend_Повильоны" Association="Self.FK_Arend_Повильоны">
+            <End Role="Pavilions" EntitySet="Pavilions" />
+            <End Role="Rental" EntitySet="Rental" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Повильоны_Торговые_центры" Association="Self.FK_Повильоны_Торговые_центры">
+            <End Role="Shop_Centers" EntitySet="Shop_Centers" />
+            <End Role="Pavilions" EntitySet="Pavilions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Arend_Арендаторы" Association="Self.FK_Arend_Арендаторы">
+            <End Role="Tenant" EntitySet="Tenant" />
+            <End Role="Rental" EntitySet="Rental" />
+          </AssociationSet>
+          <FunctionImport Name="Number1" />
+          <FunctionImport Name="Rent2" ReturnType="Collection(SmirnovGeorgyPKC_304Ses1Model.Rent2_Result)" />
+          <FunctionImport Name="rentPavilion">
+            <Parameter Name="idTanant" Mode="In" Type="Int32" />
+            <Parameter Name="idEmployee" Mode="In" Type="Int32" />
+            <Parameter Name="Pavilion_Number" Mode="In" Type="String" />
+            <Parameter Name="statusPavilion" Mode="In" Type="String" />
+            <Parameter Name="start_rent" Mode="In" Type="DateTime" />
+            <Parameter Name="end_rent" Mode="In" Type="DateTime" />
+            <Parameter Name="SC_ID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="RentPr">
+            <Parameter Name="Tent_ID" Mode="In" Type="Int32" />
+            <Parameter Name="Empl_ID" Mode="In" Type="Int32" />
+            <Parameter Name="SC_ID" Mode="In" Type="Int32" />
+            <Parameter Name="PV_ID" Mode="In" Type="String" />
+            <Parameter Name="Rental_Start" Mode="In" Type="DateTime" />
+            <Parameter Name="Rental_End" Mode="In" Type="DateTime" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="Rent2_Result">
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Sity" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Pavilion_Number" Nullable="false" MaxLength="255" />
+          <Property Type="DateTime" Name="Rental_Start" Nullable="true" Precision="23" />
+          <Property Type="DateTime" Name="Rental_end" Nullable="true" Precision="23" />
+          <Property Type="Double" Name="priceRent" Nullable="true" />
+          <Property Type="String" Name="Status" Nullable="true" MaxLength="255" />
+          <Property Type="String" Name="Название" Nullable="true" MaxLength="255" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище SmirnovGeorgyPKC_304Ses1ModelContainer" CdmEntityContainer="Ses1Entities">
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="SmirnovGeorgyPKC_304Ses1Model.Employees">
+              <MappingFragment StoreEntitySet="Employees">
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Pastname" ColumnName="Pastname" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Employee_ID" ColumnName="Employee_ID" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pavilions">
+            <EntityTypeMapping TypeName="SmirnovGeorgyPKC_304Ses1Model.Pavilions">
+              <MappingFragment StoreEntitySet="Pavilions">
+                <ScalarProperty Name="Pavilion_Number" ColumnName="Pavilion_Number" />
+                <ScalarProperty Name="Floor" ColumnName="Floor" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Square" ColumnName="Square" />
+                <ScalarProperty Name="Price_M2" ColumnName="Price_M2" />
+                <ScalarProperty Name="Value_Adder_Factor" ColumnName="Value_Adder_Factor" />
+                <ScalarProperty Name="SC_ID" ColumnName="SC_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rental">
+            <EntityTypeMapping TypeName="SmirnovGeorgyPKC_304Ses1Model.Rental">
+              <MappingFragment StoreEntitySet="Rental">
+                <ScalarProperty Name="Rental_ID" ColumnName="Rental_ID" />
+                <ScalarProperty Name="Tenant_ID" ColumnName="Tenant_ID" />
+                <ScalarProperty Name="Employee_ID" ColumnName="Employee_ID" />
+                <ScalarProperty Name="Pavilion_Number" ColumnName="Pavilion_Number" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Rental_Start" ColumnName="Rental_Start" />
+                <ScalarProperty Name="Rental_End" ColumnName="Rental_End" />
+                <ScalarProperty Name="SC_ID" ColumnName="SC_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Shop_Centers">
+            <EntityTypeMapping TypeName="SmirnovGeorgyPKC_304Ses1Model.Shop_Centers">
+              <MappingFragment StoreEntitySet="Shop_Centers">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Number_Of_Pawilion" ColumnName="Number_Of_Pawilion" />
+                <ScalarProperty Name="Sity" ColumnName="Sity" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Value_Adder_Factor" ColumnName="Value_Adder_Factor" />
+                <ScalarProperty Name="Floor" ColumnName="Floor" />
+                <ScalarProperty Name="SC_ID" ColumnName="SC_ID" />
+                <ScalarProperty Name="Photo" ColumnName="Photo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tenant">
+            <EntityTypeMapping TypeName="SmirnovGeorgyPKC_304Ses1Model.Tenant">
+              <MappingFragment StoreEntitySet="Tenant">
+                <ScalarProperty Name="Код_Арендатора" ColumnName="Код_Арендатора" />
+                <ScalarProperty Name="Код_Аренды" ColumnName="Код_Аренды" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="номер" ColumnName="номер" />
+                <ScalarProperty Name="Адрес" ColumnName="Адрес" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Number1" FunctionName="Хранилище SmirnovGeorgyPKC_304Ses1Model.Number1" />
+          <FunctionImportMapping FunctionImportName="Rent2" FunctionName="Хранилище SmirnovGeorgyPKC_304Ses1Model.Rent2">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SmirnovGeorgyPKC_304Ses1Model.Rent2_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Sity" ColumnName="Sity" />
+                <ScalarProperty Name="Pavilion_Number" ColumnName="Pavilion_Number" />
+                <ScalarProperty Name="Rental_Start" ColumnName="Rental_Start" />
+                <ScalarProperty Name="Rental_end" ColumnName="Rental_end" />
+                <ScalarProperty Name="priceRent" ColumnName="priceRent" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="rentPavilion" FunctionName="Хранилище SmirnovGeorgyPKC_304Ses1Model.rentPavilion" />
+          <FunctionImportMapping FunctionImportName="RentPr" FunctionName="Хранилище SmirnovGeorgyPKC_304Ses1Model.RentPr" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,60 @@
+﻿<Page x:Class="Smirnov_Georgii_PCS_304_Sessiya1.PavilionsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Smirnov_Georgii_PCS_304_Sessiya1"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PavilionsPage">
+
+    <Grid>
+        <Grid.Background>
+            <!--<ImageBrush ImageSource = "C:\Users\Student\Desktop\Сессия 1\Pictures\fon.jpeg"></ImageBrush>-->
+            <ImageBrush ImageSource = "C:\Users\Das44\Desktop\Сессия 1\Pictures\fon.jpeg"></ImageBrush>
+        </Grid.Background>
+        <Grid>
+            <DataGrid x:Name="DGridPavilions" BorderThickness="0" FontWeight="DemiBold" Background="Transparent" ScrollViewer.CanContentScroll="False" RowBackground="Beige" AutoGenerateColumns="False" IsReadOnly="True" Margin="186,61,10,10.5" FontSize="14" FontFamily="Arial">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Width="*" Header="Номер Павильиона" Binding="{Binding Pavilion_Number}"></DataGridTextColumn>
+                    <DataGridTextColumn Width="*" Header="Статус" Binding="{Binding Status}" ></DataGridTextColumn>
+                    <DataGridTextColumn Width="*" Header="Площадь" Binding="{Binding Square}" ></DataGridTextColumn>
+                    <DataGridTextColumn Width="*" Header="Стоимость на метр^2" Binding="{Binding Price_M2}" ></DataGridTextColumn>
+                    <DataGridTextColumn Width="*" Header="Этажность" Binding="{Binding Floor}" ></DataGridTextColumn>
+                    <DataGridTextColumn Width="*" Header="Коэф.Добав.Стоим." Binding="{Binding Value_Adder_Factor}" ></DataGridTextColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Редактировать" Name="BtnEdit" Click="BtnEdit_Click"></Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+            </DataGrid>
+            <Grid HorizontalAlignment="Left" Height="440" Margin="0,10,0,0" VerticalAlignment="Top" Width="183">
+                <Button Content="Список ТЦ" x:Name="BtnPavilions" Click="BtnPavilions_Click" Margin="2,389,28,10"/>
+                <Button Content="Удалить" x:Name="BtnDelete" Click="BtnDelete_Click" Margin="0,352,31,56"/>
+                <ComboBox HorizontalContentAlignment="Center" x:Name="ComboFloor" HorizontalAlignment="Left" Margin="2,228,0,0" VerticalAlignment="Top" Width="171" Height="26" SelectionChanged="Combo_Changed" FontSize="14" FontFamily="Arial" RenderTransformOrigin="0.218,0.387"/>
+                <!--<Image Source="C:\Users\Student\Desktop\Сессия 1\Pictures\Emblema.png" Margin="-24,-10,85,327"/>-->
+                <Image Source="C:\Users\Das44\Desktop\Сессия 1\Pictures\Emblema.png" Margin="-24,-10,85,327"/>
+                <TextBlock HorizontalAlignment="Left" Foreground="AliceBlue" Margin="2,118,0,0" TextWrapping="Wrap" Text="Площадь" FontSize="14" VerticalAlignment="Top" Height="19" Width="121" FontFamily="Arial"/>
+                <TextBlock HorizontalAlignment="Left" Foreground="AliceBlue" Margin="2,204,0,0" TextWrapping="Wrap" FontSize="14" VerticalAlignment="Top" Height="19" Width="121" FontFamily="Arial"><Run Text="Этаж"/><Run Text=":"/></TextBlock>
+                <TextBox Name="SquareTextMin" TextChanged="SquareTextTo_TextChanged" HorizontalAlignment="Left" Height="23" Margin="2,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="69"/>
+                <TextBox Name="SquareTextMax" TextChanged="SquareTextTo_TextChanged" HorizontalAlignment="Left" Height="23" Margin="104,165,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="69"/>
+                <TextBlock HorizontalAlignment="Left" Foreground="AliceBlue" Margin="0,142,0,0" TextWrapping="Wrap" Text="От:" FontSize="14" VerticalAlignment="Top" Height="19" Width="121" FontFamily="Arial"/>
+                <TextBlock HorizontalAlignment="Left" Foreground="AliceBlue" Margin="104,142,-42,0" TextWrapping="Wrap" Text="До:" FontSize="14" VerticalAlignment="Top" Height="19" Width="121" FontFamily="Arial"/>
+                <Button Content="Добавить" x:Name="BtnAdd" Click="BtnAdd_Click" HorizontalAlignment="Left" Margin="0,317,0,0" VerticalAlignment="Top" Width="153" Height="30"/>
+                <ComboBox HorizontalContentAlignment="Center" x:Name="ComboStatus" SelectionChanged="Combo_Changed" HorizontalAlignment="Left" Margin="2,286,0,0" VerticalAlignment="Top" Width="171" Height="26" FontSize="14" FontFamily="Arial"/>
+                <TextBlock HorizontalAlignment="Left" Foreground="AliceBlue" Margin="2,262,0,0" TextWrapping="Wrap" Text="Статус:" FontSize="14" VerticalAlignment="Top" Height="19" Width="121" FontFamily="Arial"/>
+                <Rectangle HorizontalAlignment="Left" Height="86" Margin="0,113,0,0" Stroke="WhiteSmoke" VerticalAlignment="Top" Width="178"/>
+                <Rectangle HorizontalAlignment="Left" Height="118" Margin="0,199,0,0" Stroke="WhiteSmoke" VerticalAlignment="Top" Width="178"/>
+            </Grid>
+            <Grid HorizontalAlignment="Left" Height="51" Margin="647,0,0,0" VerticalAlignment="Top" Width="153">
+                <Button Content="Назад" x:Name="BtnBack" Click="BtnBack_Click" Margin="46,0,10,10" FontSize="14" FontFamily="Arial"/>
+                <Button Content="Арендовать" x:Name="BtnRent" Click="BtnRent_Click" Margin="-56,0,112,10" FontSize="14" FontFamily="Arial"/>
+            </Grid>
+        </Grid>
+        <Frame Name="SC_Frame" Navigated="SC_Frame_Navigated" />
+    </Grid>
+</Page>

@@ -1,0 +1,9 @@
+﻿<Application x:Class="Smirnov_Georgii_PCS_304_Sessiya1.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Smirnov_Georgii_PCS_304_Sessiya1"
+             StartupUri="SC.xaml">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
